@@ -1,80 +1,48 @@
 const axios = require('axios');
-const SET_USER = 'SET_USER';
-const PPL_YOU_FOLLOW = 'PPL_YOU_FOLLOW';
-const FOLLOWING_YOU = 'FOLLOWING_YOU';
-const DAILY_PROPHET = 'DAILY_PROPHET';
-const MENTIONS = 'MENTIONS';
+
 
 const initialState = {
-	user: {},
-	forumPosts: [],
-	followed: [],
-	// placeholder for navbar
-	dailyProphetCount: [],
-	messagesCount: [],
-	mentionsCount: [],
-	//
-	youFollow: { count: 0 },
-	followingYou: { count: 0 }
+	username: '',
+	password: '',
+	user: {}
 };
+
+const GET_USER = 'GET_USER';
+const UPDATE_USERNAME = 'UPDATE_USERNAME';
+const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 
 function reducer(state = initialState, action) {
 	switch (action.type) {
-		case `${SET_USER}_FULFILLED`:
-			// return Object.assign({}, state, { user: action.payload });
+		case `${GET_USER}_FULFILLED`:
 			return { ...state, user: action.payload };
-		case `${PPL_YOU_FOLLOW}_FULFILLED`:
-			return { ...state, youFollow: action.payload };
-		case `${FOLLOWING_YOU}_FULFILLED`:
-			return { ...state, followingYou: action.payload };
-		case `${DAILY_PROPHET}_FULFILLED`:
-			return { ...state, dailyProphetCount: action.payload };
-		case `${MENTIONS}_FULFILLED`:
-			return { ...state, mentionsCount: action.payload };
+		case `${UPDATE_USERNAME}_FULFILLED`:
+			return { ...state, username: action.payload };
+		case `${UPDATE_PASSWORD}_FULFILLED`:
+			return { ...state, password: action.payload };
 		default:
 			return state;
 	}
 }
 
-export function setUser() {
+export const updateUsername = username => {
 	return {
-		type: SET_USER,
-		payload: axios.get('/api/user').then((response) => {
-			return response.data;
-		})
+	  type: UPDATE_USERNAME,
+	  payload: username
 	};
-}
-export function peopleYouFollow(id) {
+  };
+  
+  export const updatePassword = password => {
 	return {
-		type: PPL_YOU_FOLLOW,
-		payload: axios.get(`/api/followernumber/${id}`).then((response) => {
-			return response.data[0];
-		})
+	  type: UPDATE_PASSWORD,
+	  payload: password
 	};
-}
-export function peopleFollowingYou(id) {
+  };
+
+export const get_user = (username, password) => {
 	return {
-		type: FOLLOWING_YOU,
-		payload: axios.get(`/api/followingnumber/${id}`).then((response) => {
-			return response.data[0];
-		})
+	  type: GET_USER,
+	  payload: axios.post('/api/user', {username, password})
 	};
-}
-export function dailyProphet(id) {
-	return {
-		type: DAILY_PROPHET,
-		payload: axios.get(`/api/news/${id}`).then((response) => {
-			return response.data;
-		})
-	};
-}
-export function getMessages(id) {
-	return {
-		type: MENTIONS,
-		payload: axios.get(`/api/news/${id}`).then((response) => {
-			return response.data;
-		})
-	};
-}
+  };
 
 export default reducer;

@@ -1,0 +1,18 @@
+.Nav {
+    width: 5vw;
+    height: 100vh;
+    background: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+.nav_icon {
+    width: 70%;
+    color: black;
+}
+
+.No_Nav {
+    display: none;
+}

@@ -46,9 +46,9 @@ class Auth extends Component {
         <h1 className="Helo">Helo</h1>
         <div className="Helo_login">
           <p id="username">Username:</p>
-          <input onChange={(e) => update_username(e.target.value)} id="username_input" />
+          <input onChange={(e) => update_username(e.target.value)} type="text" id="username_input" />
           <p id="passowrd">Password:</p>
-          <input onChange={(e) => update_password(e.target.value)} id="password_input" />
+          <input onChange={(e) => update_password(e.target.value)} type="password" id="password_input" />
         </div>
         <div className="login_and_out_buttons">
           <div className="login_btn">

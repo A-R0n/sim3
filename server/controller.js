@@ -1,6 +1,6 @@
 
 const get_user = (req, res) => {
-    console.log(req.body)
+    console.log('req.body when I press login', req.body)
     const db = req.app.get('db');
     const {username, password} = req.body
     db.get_user([username, password])

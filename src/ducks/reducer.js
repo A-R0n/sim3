@@ -24,14 +24,14 @@ function reducer(state = initialState, action) {
 	}
 }
 
-export const updateUsername = username => {
+export const update_username = username => {
 	return {
 	  type: UPDATE_USERNAME,
 	  payload: username
 	};
   };
   
-  export const updatePassword = password => {
+  export const update_password = password => {
 	return {
 	  type: UPDATE_PASSWORD,
 	  payload: password

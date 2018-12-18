@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Nav from './Component/Nav/Nav';
+
 import Auth from './Component/Auth/Auth';
 import Form from './Component/Form/Form';
 import Dashboard from './Component/Dashboard/Dashboard';

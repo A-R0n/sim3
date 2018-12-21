@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './ducks/store';
 import routes from './routes';
-
+import Nav from './Component/Nav/Nav';
 
 class App extends Component {
   render() {
@@ -12,8 +12,12 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div className="App">
-            {/* <Nav /> */}
-            {routes}
+            {window.location.pathname === '/' ? null : (
+              
+                <Nav />
+            
+            )}
+            <div className="routes">{routes}</div>
           </div>
         </BrowserRouter>
       </Provider>

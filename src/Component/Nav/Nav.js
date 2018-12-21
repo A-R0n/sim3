@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import './Nav.css';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect} from 'react-redux';
+import { updateUser} from '../../ducks/reducer';
+
 
 class Nav extends Component {
-  componentDidMount() {
-    this.props.get_user();
+  constructor(props) {
+    super(props)
   }
+
+  
   render() {
-    const { username, password } = this.props.reducer;
-    const image = this.props.img || 'https://robohash.org/';
+    console.log(this.props)
+    const image = this.props.profile_pic || 'http://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/3059318.png&w=350&h=254';
     return (
       <div className={'Nav'}>
-        Nav
+        <p>Hi {this.props.username}!</p>
+        <img src={image} alt='imhbhe'></img>
         <Link to="/dashboard">
           <img
             className="nav_icon"
@@ -43,5 +48,5 @@ const mapStateToProps = state => state;
 
 export default connect(
   mapStateToProps,
-  { get_user, update_password, update_username }
+  { updateUser}
 )(Nav);

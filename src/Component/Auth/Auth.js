@@ -2,40 +2,50 @@ import React, { Component } from 'react';
 import './Auth.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { get_user, update_password, update_username } from '../../ducks/reducer';
-import { connect } from  'react-redux';
+// import { get_user, pword, uname } from '../../ducks/reducer';
+import { updateUser} from '../../ducks/reducer';
+import { connect } from 'react-redux';
 
 class Auth extends Component {
-  constructor(){
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       username: '',
       password: ''
-    }
+    };
+  }
+
+  componentDidMount() {
+    axios.get('/api/session').then(result => {
+      if (result.data.user) {
+        this.props.updateUser(result.data.user);
+      }
+    });
   }
 
   login_ = () => {
-    this.props.get_user();
-  }
+    axios.post(`/api/login`, this.state).then(res => {
+      this.props.updateUser(res.data);
+    });
+  };
 
   register_ = () => {
-    axios.post(`/api/create_user`, {username: this.state.username, password:this.state.password})
-  }
+    axios
+      .post(`/api/create_user`, Object.assign({}, this.state, {
+        img: 'http://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/3059318.png&w=350&h=254'
+      }))
+      .then((result) => {
+				this.props.updateUser(result.data);
+				this.props.history.push('/dashboard');
+			});
+  };
 
-  handleChangeName = (e) => {
-    this.setState({username: e})
-    console.log(this.state)
-  }
-
-  handleChangePassword = (e) => {
-    this.setState({password: e})
-    console.log(this.state)
-  }
-
+  handleChange = (e, name) => {
+    this.setState({ [name]: e.target.value });
+  };
 
   render() {
-    const { update_username, update_password } = this.props;
     return (
       <div className="Auth">
         <img
@@ -46,9 +56,19 @@ class Auth extends Component {
         <h1 className="Helo">Helo</h1>
         <div className="Helo_login">
           <p id="username">Username:</p>
-          <input onChange={(e) => update_username(e.target.value)} type="text" id="username_input" />
+          <input
+            value={this.state.username}
+            onChange={e => this.handleChange(e, 'username')}
+            type="text"
+            id="username_input"
+          />
           <p id="passowrd">Password:</p>
-          <input onChange={(e) => update_password(e.target.value)} type="password" id="password_input" />
+          <input
+            value={this.state.password}
+            onChange={e => this.handleChange(e, 'password')}
+            type="password"
+            id="password_input"
+          />
         </div>
         <div className="login_and_out_buttons">
           <div className="login_btn">
@@ -69,5 +89,5 @@ const mapStateToProps = state => state;
 
 export default connect(
   mapStateToProps,
-  { get_user, update_password, update_username }
+  { updateUser}
 )(Auth);

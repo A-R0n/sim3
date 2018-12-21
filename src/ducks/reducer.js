@@ -1,48 +1,49 @@
-const axios = require('axios');
-
+import axios from 'axios';
 
 const initialState = {
-	username: '',
-	password: '',
-	user: {}
+  username: '',
+  profile_pic: '',
+  user: {}
 };
 
+const SET_STATE = 'SET_STATE';
+const UPDATE_USER = 'UPDATE_USER';
 const GET_USER = 'GET_USER';
-const UPDATE_USERNAME = 'UPDATE_USERNAME';
-const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 
 function reducer(state = initialState, action) {
-	switch (action.type) {
-		case `${GET_USER}_FULFILLED`:
-			return { ...state, user: action.payload };
-		case `${UPDATE_USERNAME}_FULFILLED`:
-			return { ...state, username: action.payload };
-		case `${UPDATE_PASSWORD}_FULFILLED`:
-			return { ...state, password: action.payload };
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case SET_STATE:
+      return Object.assign({}, state, { individual: action.payload });
+    case UPDATE_USER:
+      return Object.assign({}, state, action.payload);
+    case GET_USER:
+      return Object.assign({}, state, action.payload);
+    default:
+      return state;
+  }
 }
 
-export const update_username = username => {
-	return {
-	  type: UPDATE_USERNAME,
-	  payload: username
-	};
+export function setUser() {
+  return {
+    type: GET_USER,
+    payload: axios.get('/api/user').then(response => {
+      return response.data;
+    })
   };
-  
-  export const update_password = password => {
-	return {
-	  type: UPDATE_PASSWORD,
-	  payload: password
-	};
-  };
+}
 
-export const get_user = (username, password) => {
-	return {
-	  type: GET_USER,
-	  payload: axios.post('/api/user', {username, password})
-	};
+export function setState(individual) {
+  return {
+    type: SET_STATE,
+    payload: individual
   };
+}
+
+export function updateUser(user) {
+  return {
+    type: UPDATE_USER,
+    payload: user
+  };
+}
 
 export default reducer;

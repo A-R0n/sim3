@@ -1,4 +1,7 @@
 .Nav {
+    position: fixed;
+    left: 0;
+    top: 0;
     width: 5vw;
     height: 100vh;
     background: green;
@@ -15,4 +18,9 @@
 
 .No_Nav {
     display: none;
+}
+
+img {
+    width: 65px;
+    height: 50px;
 }
